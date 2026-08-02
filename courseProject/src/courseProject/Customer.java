@@ -2,15 +2,15 @@ package courseProject;
 
 public class Customer {
 	
-	private String custid;
-	private String ssn;
-	private String lastname;
-	private String firstname;
-	private String custstreet;
-	private String custcity;
-	private String custstate;
-	private String custzip;
-	private String custphone;
+	public String custid;
+	public String ssn;
+	public String lastname;
+	public String firstname;
+	public String custstreet;
+	public String custcity;
+	public String custstate;
+	public String custzip;
+	public String custphone;
 
 	
 	public String getID() {
@@ -73,7 +73,12 @@ public class Customer {
 	}
 	
 	public void setCustStreet(String custstreet) {
-		;
+		if (custstreet != null && custstreet.length() > 20) {
+			throw new IllegalArgumentException("Street address can not be longer than 20 characters");
+		} else if (custstreet ==  null) {
+			throw new IllegalArgumentException("Customer street address can not be blank.");
+		}
+		this.custstreet = custstreet;
 	}
 	
 	public String getCustCity() {
@@ -81,7 +86,12 @@ public class Customer {
 	}
 	
 	public void setCustCity(String custcity) {
-		;
+		if (custcity != null && custcity.length() > 20) {
+			throw new IllegalArgumentException("City can not be more than 20 characters");
+		} else if (custcity == null) {
+			throw new IllegalArgumentException("City can not be left blank");
+		}
+		this.custcity = custcity;
 	}
 	
 	public String getCustState() {
@@ -89,7 +99,12 @@ public class Customer {
 	}
 	
 	public void setCustState(String custstate) {
-		;
+		if (custstate != null && custstate.length() != 2) {
+			throw new IllegalArgumentException("State must be 2 characters");
+		} else if (custstate == null) {
+			throw new IllegalArgumentException("State can not be blank");
+		}
+		this.custstate = custstate;
 	}
 	
 	public String getCustZip() {
@@ -97,15 +112,30 @@ public class Customer {
 	}
 	
 	public void setCustZip(String custzip) {
-		;
+		if (custzip != null && custzip.length() == 5 && custzip.chars().allMatch(Character::isDigit)) {
+			this.custzip = custzip;
+		} else if (custzip == null) {
+			throw new IllegalArgumentException("Zip code can not be left blank");
+		} else if (custzip != null && custzip.length() != 5 && custzip.chars().allMatch(Character::isDigit)) {
+			throw new IllegalArgumentException("Zip code must be 5 digits.");
+		} else {
+			throw new IllegalArgumentException("Zip code can only be numeric values");
+		}
 	}
 	
 	public String getCustPhone() {
 		return custphone;
 	}
 	
-	public void setCustPhone() {
-		;
+	public void setCustPhone(String custphone) {
+		try {
+			Integer.parseInt(custphone);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Phone number must be a numeric value.");
+		}
+		if (custphone.length() == 10) {
+			this.custphone = custphone;
+		}
 	}
 }
 
