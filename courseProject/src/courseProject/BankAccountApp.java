@@ -1,4 +1,4 @@
-//access token -- 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
+//Ashley Snuggs CIS 407 Part 1 
 
 package courseProject;
 
