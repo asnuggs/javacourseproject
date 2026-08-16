@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class DataEntry {
-	Scanner scanner = new Scanner(System.in);
+	static Scanner scanner = new Scanner(System.in);
 	
-	public String getString(String prompt) {
+	public static String getString(String prompt) {
 		System.out.print(prompt);
 		return scanner.nextLine();
 	}
 	
-	public String getString(String prompt, int max) {
+	public static String getString(String prompt, int max) {
 		String input;
 		while (true) {
 			System.out.print(prompt);
@@ -24,7 +24,7 @@ public class DataEntry {
 		}
 	}
 	
-	public String getNumString(String prompt) {
+	public static String getNumString(String prompt) {
 		while (true) {
 			System.out.print(prompt);
 			String input = scanner.nextLine();
@@ -35,7 +35,7 @@ public class DataEntry {
 		}	
 	}
 	
-	public int getInt(String prompt) {
+	public static int getInt(String prompt) {
 		while (true) {
 			System.out.print(prompt);
 			if (scanner.hasNextInt()) {
@@ -48,7 +48,7 @@ public class DataEntry {
 		}
 	}
 	
-	public int getIntRange(String prompt, int min, int max) {
+	public static int getIntRange(String prompt, int min, int max) {
 		while (true) {
 			int value = scanner.nextInt();
 			if (value >= min && value <= max) {
@@ -58,7 +58,7 @@ public class DataEntry {
 		}
 	}
 	
-	public double getDecimal(String prompt) {
+	public static double getDecimal(String prompt) {
 		while (true) {
 			System.out.print(prompt);
 			String input = scanner.nextLine();
@@ -69,7 +69,7 @@ public class DataEntry {
 		}
 	}
 	
-	public double getDecimalLimit(String prompt, double min, double max) {
+	public static double getDecimalLimit(String prompt, double min, double max) {
 		while (true) {
 			double value = getDecimal(prompt + "(" + min + " to " + max +"): ");
 			if (value >= min && value <= max) {
@@ -79,7 +79,7 @@ public class DataEntry {
 		}
 	}
 	
-	public LocalDate getDate(String prompt) {
+	public static LocalDate getDate(String prompt) {
 		while (true) {
 			System.out.print(prompt + "yyyy-mm-dd: ");
 			String input = scanner.nextLine();

@@ -12,7 +12,6 @@ public class Customer {
 	public String custzip;
 	public String custphone;
 
-	
 	public String getID() {
 		return custid;
 	}
@@ -21,7 +20,7 @@ public class Customer {
 		if (custid != null && custid.length() > 5) {
 			throw new IllegalArgumentException("Customer ID can not be longer than 5 characters");
 		} else if (custid == null) {
-			throw new IllegalArgumentException("Customer ID can not be blank.");
+			throw new IllegalArgumentException("Customer ID can not be blank");
 		}
 		this.custid = custid;
 	}
