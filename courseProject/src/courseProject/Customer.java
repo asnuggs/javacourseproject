@@ -19,7 +19,7 @@ public class Customer {
 	public void setID(String custid) {
 		if (custid != null && custid.length() > 5) {
 			throw new IllegalArgumentException("Customer ID can not be longer than 5 characters");
-		} else if (custid == null) {
+		} else if (custid == null || custid.isBlank()) {
 			throw new IllegalArgumentException("Customer ID can not be blank");
 		}
 		this.custid = custid;
