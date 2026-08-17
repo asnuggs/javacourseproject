@@ -53,6 +53,7 @@ public class Accounts {
 		if (0 > intrestRate || intrestRate >10) {
 			throw new IllegalArgumentException("Outside of intrest rate range.");
 		}
+		this.intrestRate = intrestRate;
 	}
 	
 	public double getOverdraftFee() {

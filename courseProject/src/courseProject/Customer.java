@@ -32,7 +32,7 @@ public class Customer {
 	public void setSSN(String ssn) {
 		if (ssn != null && ssn.chars().allMatch(Character::isDigit) && ssn.length() == 9) {
 			this.ssn = ssn;
-		} else if (ssn == null) {
+		} else if (ssn == null || ssn.isBlank()) {
 			throw new IllegalArgumentException("SSN can not be blank.");
 		} else if (ssn != null && ssn.chars().allMatch(Character::isDigit) && ssn.length() != 9) {
 			throw new IllegalArgumentException("SSN must be 9 characters");
@@ -48,7 +48,7 @@ public class Customer {
 	public void setLastName(String lastname) {
 		if (lastname != null && lastname.length() > 20) {
 			throw new IllegalArgumentException("Last name can not be more that 20 characters");
-		} else if (lastname == null) {
+		} else if (lastname == null || lastname.isBlank()) {
 			throw new IllegalArgumentException("Last name can not be blank");
 		}
 		this.lastname = lastname;
@@ -61,7 +61,7 @@ public class Customer {
 	public void setFirstName(String firstname) {
 		if (firstname != null && firstname.length() >15) {
 			throw new IllegalArgumentException("First name can not be more that 15 characters.");
-		} else if (firstname == null) {
+		} else if (firstname == null || firstname.isBlank()) {
 			throw new IllegalArgumentException("First name can not be blank.");
 		}
 		this.firstname = firstname;
@@ -74,7 +74,7 @@ public class Customer {
 	public void setCustStreet(String custstreet) {
 		if (custstreet != null && custstreet.length() > 20) {
 			throw new IllegalArgumentException("Street address can not be longer than 20 characters");
-		} else if (custstreet ==  null) {
+		} else if (custstreet ==  null || custstreet.isBlank()) {
 			throw new IllegalArgumentException("Customer street address can not be blank.");
 		}
 		this.custstreet = custstreet;
@@ -87,7 +87,7 @@ public class Customer {
 	public void setCustCity(String custcity) {
 		if (custcity != null && custcity.length() > 20) {
 			throw new IllegalArgumentException("City can not be more than 20 characters");
-		} else if (custcity == null) {
+		} else if (custcity == null || custcity.isBlank()) {
 			throw new IllegalArgumentException("City can not be left blank");
 		}
 		this.custcity = custcity;
@@ -100,7 +100,7 @@ public class Customer {
 	public void setCustState(String custstate) {
 		if (custstate != null && custstate.length() != 2) {
 			throw new IllegalArgumentException("State must be 2 characters");
-		} else if (custstate == null) {
+		} else if (custstate == null || custstate.isBlank()) {
 			throw new IllegalArgumentException("State can not be blank");
 		}
 		this.custstate = custstate;
@@ -113,7 +113,7 @@ public class Customer {
 	public void setCustZip(String custzip) {
 		if (custzip != null && custzip.length() == 5 && custzip.chars().allMatch(Character::isDigit)) {
 			this.custzip = custzip;
-		} else if (custzip == null) {
+		} else if (custzip == null || custzip.isBlank()) {
 			throw new IllegalArgumentException("Zip code can not be left blank");
 		} else if (custzip != null && custzip.length() != 5 && custzip.chars().allMatch(Character::isDigit)) {
 			throw new IllegalArgumentException("Zip code must be 5 digits.");
@@ -134,6 +134,8 @@ public class Customer {
 		}
 		if (custphone.length() == 10) {
 			this.custphone = custphone;
+		} else{
+			throw new IllegalArgumentException("Phone number must be 10 digits.");
 		}
 	}
 }

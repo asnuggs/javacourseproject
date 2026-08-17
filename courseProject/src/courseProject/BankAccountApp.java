@@ -1,4 +1,4 @@
-//Ashley Snuggs CIS 407 Part 1 
+//Ashley Snuggs CIS 407 Part 2
 
 package courseProject;
 
@@ -156,10 +156,10 @@ public class BankAccountApp {
 			System.out.printf("%-15s %-15s %-20s %-20s %-20s %-15s %-5s %-15s %s%n", cust.custid, cust.ssn, cust.lastname, cust.firstname, cust.custstreet , cust.custcity, cust.custstate, cust.custzip, cust.custphone);
 		}
 		
-		System.out.printf("%-15s %-15s %-20s %-20s %-20s %-15s %s%n", "Account Number","Account Type","Service Fee","Intrest Rate", "Overdraft Fee", "Balance");
+		System.out.printf("%-15s %-15s %-20s %-20s %-20s  %s%n", "Account Number","Account Type","Service Fee","Intrest Rate", "Overdraft Fee", "Balance");
 		
 		for (Accounts act : accounts) {
-			System.out.printf("%-15s %-15s %-20s %-20s %-20s %-15s %s%n", act.accountNumber, act.accountType, act.serviceFee , act.intrestRate , act.overdraftFee, act.balance);
+			System.out.printf("%-15s %-15s %-20s %-20s %-20s %s%n", act.accountNumber, act.accountType, act.serviceFee , act.intrestRate , act.overdraftFee, act.balance);
 		}
 
 	}
