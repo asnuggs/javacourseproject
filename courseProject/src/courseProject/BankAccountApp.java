@@ -1,25 +1,22 @@
-//Ashley Snuggs CIS 407 Part 2
+//Ashley Snuggs CIS 407 Part 3
 
 package courseProject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class BankAccountApp {
-
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<Customer> customers = new ArrayList<>();
-		List<Accounts> accounts = new ArrayList<>();
-		Scanner scanner = new Scanner(System.in);
+		List<Account> accounts = new ArrayList<>();
 		
 		String cont;
 		
 		do {
 			Customer c = new Customer();
-			Accounts a = new Accounts();
+			Account a = null;
 			
 			while(true) {
 				try {
@@ -105,6 +102,22 @@ public class BankAccountApp {
 			
 			while(true) {
 				try {
+					String acctType = DataEntry.getString("Account Type (CHK/SAV): ");
+					if (acctType.equalsIgnoreCase("CHK")) {
+						a = new CheckingAccount();
+					} else if (acctType.equalsIgnoreCase("SAV")) {
+						a = new SavingsAccount();
+					} else {
+						throw new IllegalArgumentException("Account type must be CHK or SAV.");
+					}
+					break;
+				}catch (IllegalArgumentException e) {
+					System.out.println("Error: " + e.getMessage());
+				}
+			}
+			
+			while(true) {
+				try {
 					a.setAccountNumber(DataEntry.getNumString("Account Number: "));
 					break;
 				}catch (IllegalArgumentException e) {
@@ -114,7 +127,7 @@ public class BankAccountApp {
 			
 			while(true) {
 				try {
-					a.setAccountType(DataEntry.getString("Account Type:" ));
+					a.setTransactionDate(DataEntry.getDate("Opening Transaction Date: "));
 					break;
 				}catch (IllegalArgumentException e) {
 					System.out.println("Error: " + e.getMessage());
@@ -123,7 +136,7 @@ public class BankAccountApp {
 			
 			while(true) {
 				try {
-					a.setServiceFee(DataEntry.getDecimalLimit( "Service Fee: ", 0, 10));
+					a.setTransactionType(DataEntry.getString("Opening Transaction Type (DEP/WTH): "));
 					break;
 				}catch (IllegalArgumentException e) {
 					System.out.println("Error: " + e.getMessage());
@@ -131,24 +144,18 @@ public class BankAccountApp {
 			}
 			
 			while(true) {
-				try { 
-					a.setIntrestRate(DataEntry.getDecimalLimit("Intrest Rate: ", 0, 10));
+				try {
+					a.setTransactionAmount(DataEntry.getDecimal("Opening Transaction Amount: "));
 					break;
-				} catch (IllegalArgumentException e) {
+				}catch (IllegalArgumentException e) {
 					System.out.println("Error: " + e.getMessage());
 				}
 			}
 			
-			a.setOverdraftFee(5);
-			a.setBalance(0);
-			
 			customers.add(c);
 			accounts.add(a);
-			System.out.println("Would you like to add a new customer? (y/n)");
-			cont = scanner.nextLine();
+			cont = DataEntry.getString("Would you like to add a new customer? (y/n): ");
 		} while (!cont.equalsIgnoreCase("N"));
-		
-		scanner.close();
 		
 		System.out.printf("%-15s %-15s %-20s %-20s %-20s %-15s %-5s %-15s %s%n","Customer ID","Customer SSN","Last Name","First Name","Street Address","City","State","Zip Code", "Phone Number");
 		
@@ -156,11 +163,18 @@ public class BankAccountApp {
 			System.out.printf("%-15s %-15s %-20s %-20s %-20s %-15s %-5s %-15s %s%n", cust.custid, cust.ssn, cust.lastname, cust.firstname, cust.custstreet , cust.custcity, cust.custstate, cust.custzip, cust.custphone);
 		}
 		
-		System.out.printf("%-15s %-15s %-20s %-20s %-20s  %s%n", "Account Number","Account Type","Service Fee","Intrest Rate", "Overdraft Fee", "Balance");
+		System.out.printf("%n%-15s %-15s %s%n","Account Number","Account Type","Balance");
 		
-		for (Accounts act : accounts) {
-			System.out.printf("%-15s %-15s %-20s %-20s %-20s %s%n", act.accountNumber, act.accountType, act.serviceFee , act.intrestRate , act.overdraftFee, act.balance);
+		for (Account act : accounts) {
+			System.out.printf("%-15s %-15s %.2f%n", act.getAccountNumber(), getAccountTypeLabel(act), act.getBalance());
 		}
-
+	}
+	
+	private static String getAccountTypeLabel(Account a) {
+		if (a instanceof CheckingAccount) {
+			return "CHK";
+		} else {
+			return "SAV";
+		}
 	}
 }
