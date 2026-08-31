@@ -167,6 +167,56 @@ public class BankAccountApp {
 		for (Account act : accounts) {
 			System.out.printf("%-15s %-15s %.2f%n", act.getAccountNumber(), getAccountTypeLabel(act), act.getBalance());
 		}
+		
+		String moreTrans = DataEntry.getString("\nWould you like to perform a transaction on an existing account? (y/n): ");
+		while (moreTrans.equalsIgnoreCase("Y")) {
+			Account selected = null;
+			
+			while(true) {
+				try {
+					String acctNum = DataEntry.getString("Account Number: ");
+					for (Account act : accounts) {
+						if (act.getAccountNumber().equals(acctNum)) {
+							selected = act;
+							break;
+						}
+					}
+					if (selected == null) {
+						throw new IllegalArgumentException("Account number not found.");
+					}
+					break;
+				}catch (IllegalArgumentException e) {
+					System.out.println("Error: " + e.getMessage());
+				}
+			}
+			
+			while(true) {
+				try {
+					String type = DataEntry.getString("Transaction Type (DEP/WTH): ");
+					double amount = DataEntry.getDecimal("Transaction Amount: ");
+					if (type.equalsIgnoreCase("DEP")) {
+						selected.deposit(amount);
+					} else if (type.equalsIgnoreCase("WTH")) {
+						selected.withdrawal(amount);
+					} else {
+						throw new IllegalArgumentException("Transaction type must be DEP or WTH.");
+					}
+					break;
+				}catch (IllegalArgumentException e) {
+					System.out.println("Error: " + e.getMessage());
+				}
+			}
+			
+			System.out.printf("New Balance for Account %s: %.2f%n", selected.getAccountNumber(), selected.getBalance());
+			
+			moreTrans = DataEntry.getString("Would you like to perform another transaction? (y/n): ");
+		}
+		
+		System.out.printf("%n%-15s %-15s %s%n","Account Number","Account Type","Balance");
+		
+		for (Account act : accounts) {
+			System.out.printf("%-15s %-15s %.2f%n", act.getAccountNumber(), getAccountTypeLabel(act), act.getBalance());
+		}
 	}
 	
 	private static String getAccountTypeLabel(Account a) {
