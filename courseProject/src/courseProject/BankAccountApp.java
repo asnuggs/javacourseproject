@@ -136,16 +136,15 @@ public class BankAccountApp {
 			
 			while(true) {
 				try {
-					a.setTransactionType(DataEntry.getString("Opening Transaction Type (DEP/WTH): "));
-					break;
-				}catch (IllegalArgumentException e) {
-					System.out.println("Error: " + e.getMessage());
-				}
-			}
-			
-			while(true) {
-				try {
-					a.setTransactionAmount(DataEntry.getDecimal("Opening Transaction Amount: "));
+					String type = DataEntry.getString("Opening Transaction Type (DEP/WTH): ");
+					double amount = DataEntry.getDecimal("Opening Transaction Amount: ");
+					if (type.equalsIgnoreCase("DEP")) {
+						a.deposit(amount);
+					} else if (type.equalsIgnoreCase("WTH")) {
+						a.withdrawal(amount);
+					} else {
+						throw new IllegalArgumentException("Transaction type must be DEP or WTH.");
+					}
 					break;
 				}catch (IllegalArgumentException e) {
 					System.out.println("Error: " + e.getMessage());
