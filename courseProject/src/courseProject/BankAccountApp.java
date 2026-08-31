@@ -2,6 +2,7 @@
 
 package courseProject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +152,9 @@ public class BankAccountApp {
 				}
 			}
 			
+			System.out.printf("%-12s %-15s %-12s %-14s %-10s %-15s %-10s %s%n","Customer ID","Account Number","Account Type","Trans Date","Trans Type","Trans Amount","Fees","Balance");
+			printTransaction(c, a, a.getTransactionDate());
+			
 			customers.add(c);
 			accounts.add(a);
 			cont = DataEntry.getString("Would you like to add a new customer? (y/n): ");
@@ -169,21 +173,36 @@ public class BankAccountApp {
 		}
 		
 		String moreTrans = DataEntry.getString("\nWould you like to perform a transaction on an existing account? (y/n): ");
+		if (moreTrans.equalsIgnoreCase("Y")) {
+			System.out.printf("%n%-12s %-15s %-12s %-14s %-10s %-15s %-10s %s%n","Customer ID","Account Number","Account Type","Trans Date","Trans Type","Trans Amount","Fees","Balance");
+		}
 		while (moreTrans.equalsIgnoreCase("Y")) {
 			Account selected = null;
+			Customer selectedCustomer = null;
 			
 			while(true) {
 				try {
 					String acctNum = DataEntry.getString("Account Number: ");
-					for (Account act : accounts) {
-						if (act.getAccountNumber().equals(acctNum)) {
-							selected = act;
+					for (int i = 0; i < accounts.size(); i++) {
+						if (accounts.get(i).getAccountNumber().equals(acctNum)) {
+							selected = accounts.get(i);
+							selectedCustomer = customers.get(i);
 							break;
 						}
 					}
 					if (selected == null) {
 						throw new IllegalArgumentException("Account number not found.");
 					}
+					break;
+				}catch (IllegalArgumentException e) {
+					System.out.println("Error: " + e.getMessage());
+				}
+			}
+			
+			LocalDate transDate = null;
+			while(true) {
+				try {
+					transDate = DataEntry.getDate("Transaction Date: ");
 					break;
 				}catch (IllegalArgumentException e) {
 					System.out.println("Error: " + e.getMessage());
@@ -207,7 +226,7 @@ public class BankAccountApp {
 				}
 			}
 			
-			System.out.printf("New Balance for Account %s: %.2f%n", selected.getAccountNumber(), selected.getBalance());
+			printTransaction(selectedCustomer, selected, transDate);
 			
 			moreTrans = DataEntry.getString("Would you like to perform another transaction? (y/n): ");
 		}
@@ -225,5 +244,10 @@ public class BankAccountApp {
 		} else {
 			return "SAV";
 		}
+	}
+	
+	private static void printTransaction(Customer c, Account a, LocalDate date) {
+		System.out.printf("%-12s %-15s %-12s %-14s %-10s %-15.2f %-10.2f %.2f%n",
+				c.getID(), a.getAccountNumber(), getAccountTypeLabel(a), date, a.getTransactionType(), a.getTransactionAmount(), a.getLastFeeCharged(), a.getBalance());
 	}
 }
